@@ -46,6 +46,16 @@ variable "domain_name" {
   default     = "replace-me"
 }
 
+variable "use_acm_certificate" {
+  description = "create an https endpoint on the elb with the specified certificate"
+  default     = false
+}
+
+variable "acm_certificate_arn" {
+  description = "create an ACM certificate for the loadbalancer"
+  default     = "replace-me"
+}
+
 variable "lb_port" {
   description = "The port the load balancer should listen on for API requests."
   default     = 443

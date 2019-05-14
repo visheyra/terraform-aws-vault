@@ -23,11 +23,13 @@ resource "aws_elb" "vault" {
   subnets         = ["${var.subnet_ids}"]
 
   # Run the ELB in TCP passthrough mode
+  # Or with an HTTPS listener if an ACM certificate is used
   listener {
     lb_port           = "${var.lb_port}"
-    lb_protocol       = "TCP"
+    lb_protocol       = "${var.use_acm_certificate ? "HTTPS" : "TCP"}"
     instance_port     = "${var.vault_api_port}"
-    instance_protocol = "TCP"
+    instance_protocol = "${var.use_acm_certificate ? "HTTP" : "TCP"}"
+    ssl_certificate_id = "${var.use_acm_certificate ? var.acm_certificate_arn : ""}"
   }
 
   health_check {
